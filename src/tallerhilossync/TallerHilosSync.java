@@ -22,8 +22,6 @@ public class TallerHilosSync {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Clima clima= new Clima();
-        clima.start();
         var services = Executors.newCachedThreadPool();
         List<EolicasBase> threadList = new ArrayList<>();
         var lock= new ReentrantLock();
