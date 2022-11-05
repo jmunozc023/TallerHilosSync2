@@ -9,6 +9,6 @@ package tallerhilossync;
  * @author josep
  */
 public class Bateria {
-    public static String bateria= " ";
+    public static String bateria;
     public static int tiempo=0;
 }

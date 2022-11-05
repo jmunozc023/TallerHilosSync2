@@ -21,7 +21,7 @@ public class Clima extends Thread {
             int random= (int) (Math.random())*4;
             switch (random) {
                 case 1:
-                    clima=10;
+                    clima=2000;
                     System.out.println("La velocidad del viento es muy alta");
                     break;
                 case 2:
