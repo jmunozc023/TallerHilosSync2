@@ -10,5 +10,9 @@ package tallerhilossync;
  */
 public class Bateria {
     public static String bateria;
-    public static int tiempo=0;
+
+    public Bateria() {
+        
+    }
+    
 }

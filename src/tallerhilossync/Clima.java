@@ -11,12 +11,11 @@ import java.util.logging.Logger;
  *
  * @author josep
  */
-public class Clima extends Thread {
+public class Clima implements Runnable {
     public static int clima=100;
   
     
-    public Clima() {
-        
+    public int cambioClima(){
         try {
             int random= (int) (Math.random())*4;
             switch (random) {
@@ -36,12 +35,17 @@ public class Clima extends Thread {
                     clima=100;
                     System.out.println("La velocidad del viento es baja");
                     break;
-                
             }
             Thread.sleep(2000);
         } catch (InterruptedException ex) {
             Logger.getLogger(Clima.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return clima;
+    }
+
+    @Override
+    public void run() {
+        cambioClima();
     }
     
     

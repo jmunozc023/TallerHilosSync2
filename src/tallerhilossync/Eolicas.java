@@ -15,8 +15,9 @@ import java.util.logging.Logger;
 public class Eolicas extends EolicasBase {
 
     private ReentrantLock sync;
-    private int x;
+    private int x=0;
     private int y;
+    private int c;
 
     public Eolicas(ReentrantLock sync, int id) {
         super(id);
@@ -27,32 +28,41 @@ public class Eolicas extends EolicasBase {
         x = Integer.parseInt(Bateria.bateria);
         return x;
     }
+    public void cuenta(){
+        sync.lock();
+        c =y;
+        y=x+100;
+        c=y;
+        
+        sync.unlock();
+    }
 
     @Override
     public void run() {
-        sync.lock();
-        try {
-            Thread.sleep(Clima.clima);
+        
+        while (c <= 1000) {
 
-            while (x <= 1000) {
-                var temp = x;
-
-                try {
-                    temp += 100;
-                    x = temp;
-                    Bateria.bateria = String.valueOf(x);
-                    System.out.println("Bateria id " + super.getId() + " Carga: " + Bateria.bateria + " Watts\n");
-                } finally {
-                    sync.unlock();
-                }
+            try {
+               
+                this.cuenta();
+                var temp = c;
+                sync.lock();
+                Thread.sleep(Clima.clima);
+                
+                 
+                x=temp;
+                
+                Bateria.bateria=String.valueOf(temp);
+                System.out.println("Bateria id " + super.getId() + " Carga: " + Bateria.bateria + " Watts\n");
+                
+                sync.unlock();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Eolicas.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Eolicas.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         super.setRunning(false);
-
+      
     }
 
     /*try {

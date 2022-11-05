@@ -24,6 +24,8 @@ public class TallerHilosSync {
     public static void main(String[] args) {
         var services = Executors.newCachedThreadPool();
         List<EolicasBase> threadList = new ArrayList<>();
+        List<Clima> threadList1= new ArrayList<>();
+        
         var lock= new ReentrantLock();
         for (int i = 0; i < 20; i++) {
             threadList.add(new Eolicas(lock, i+1));
