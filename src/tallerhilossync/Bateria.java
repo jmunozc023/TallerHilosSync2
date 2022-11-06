@@ -9,10 +9,7 @@ package tallerhilossync;
  * @author josep
  */
 public class Bateria {
-    public static String bateria;
+    public static String bateria; //Clase que crea el objeto compartido bateria
 
-    public Bateria() {
-        
-    }
     
 }

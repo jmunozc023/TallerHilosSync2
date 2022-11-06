@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  */
 public class Clima extends ClimaBase {
 
-    public static int clima=60000;
+    public static int clima=60/*000*/;
 
     public Clima(String climaActual, int clima) {
         super(climaActual);

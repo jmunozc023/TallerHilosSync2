@@ -4,6 +4,7 @@
  */
 package tallerhilossync;
 
+import java.text.NumberFormat;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,78 +13,55 @@ import java.util.logging.Logger;
  *
  * @author josep
  */
-public class Eolicas extends EolicasBase {
+public class Eolicas extends EolicasBase { //Clase Eolicas que implementa el abstract y por ende la clase Runnable
 
-    private ReentrantLock sync;
-    private int x=0;
-    private int y;
-    private int c;
+    private ReentrantLock sync; //variable para el lock de la sincronizacion
+    private double x = 0.0; //Variable para obtener el numero de vuelta en porcentaje de la carga de la bateria
 
-    public Eolicas(ReentrantLock sync, int id) {
+
+    public Eolicas(ReentrantLock sync, int id) { //Constructor para la clase que incluye el Lock
         super(id);
         this.sync = sync;
     }
 
-    public int conversion() {
-        x = Integer.parseInt(Bateria.bateria);
+    public double conversion() { //Metodo para convertir datos de String a Double
+        x = Double.parseDouble(Bateria.bateria);
         return x;
     }
-    public void cuenta(){
+
+    public void cuenta() { //Metodo void para hacer la cuenta progresiva de la carga de la bateria
         sync.lock();
-        c =y;
-        y=x+100;
-        c=y;
-        
+
+        x += 0.0001;
+
         sync.unlock();
     }
 
     @Override
-    public void run() {
-        
-        while (c <= 1000) {
+    public void run() { //Metodo que ejecutara el hilo correspondiente
+
+        while (x <= 100) {
 
             try {
-               
+
                 this.cuenta();
-                var temp = c;
+                var temp = x;
                 sync.lock();
-                Thread.sleep(Clima.clima);
-                
-                 
-                x=temp;
-                
-                Bateria.bateria=String.valueOf(temp);
-                System.out.println("Bateria id " + super.getId() + " Carga: " + Bateria.bateria + " Watts\n");
-                
+                Thread.sleep(Clima.clima); // Esta variable sleep recibe el tiempo que le asigna el clima
+                x = temp;
+                NumberFormat formatoNumero = NumberFormat.getNumberInstance(); //Metodo para dar formato al numero obtenido y colocarle solo 4 decimales
+                formatoNumero.setMaximumFractionDigits(4);
+                Bateria.bateria = String.valueOf(temp); //Metodo para escribir el valor obtenido en la bateria, esta protegido por el lock
+                System.out.println("Bateria " + super.getId() + " Carga: " + formatoNumero.format(x) + "%"); //Funcion para imprimir en pantalla el progreso de carga
+
                 sync.unlock();
             } catch (InterruptedException ex) {
                 Logger.getLogger(Eolicas.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }
-        super.setRunning(false);
-      
-    }
+        super.setRunning(false);//Cambia el estado de los hilos a false en Running
 
-    /*try {
-        sync.lock();
-        while (y <= 10000) {
-        try {
-        
-        var temp = Bateria.bateria;
-        x = x + 100;
-        Thread.sleep(Clima.clima);
-        temp += "Bateria id: " + super.getId() + " Carga: " + x + " Watts \n";
-        Bateria.bateria = temp;
-        y = x;
-        } finally {
-        sync.unlock();
-        }
-        
-        }
-        } catch (InterruptedException ex) {
-        Logger.getLogger(Eolicas.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        super.setRunning(false);*/
+    }
+  
 }
