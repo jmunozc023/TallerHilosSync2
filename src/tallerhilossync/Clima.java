@@ -11,35 +11,33 @@ import java.util.logging.Logger;
  *
  * @author josep
  */
-public class Clima extends ClimaBase {
+public class Clima extends ClimaBase { //Clase que hereda el abstract del clima
 
-    public static int clima=60/*000*/;
+    public static int clima=60000;// Velocidad inicial normal de las eolicas
 
-    public Clima(String climaActual, int clima) {
+    public Clima(String climaActual, int clima) { //Constructor de la clase
         super(climaActual);
         Clima.clima = clima;
     }
 
-    public static int getClima() {
+    public static int getClima() { //Getter del clima
         return clima;
     }
 
-    public static void setClima(int clima) {
+    public static void setClima(int clima) { //Setter del clima
         Clima.clima = clima;
     }
 
-    public int cambioClima() {
-        while (isRunning()) {
-            int random = (int) Math.floor(Math.random() * 4 + 1);
+    public int cambioClima() { //Metodo de cambio de clima
+        while (isRunning()) { //Mientras el sistema se encuentre corriendo, ejecuta el hilo del Clima
+            int random = (int) Math.floor(Math.random() * 4 + 1); //Generador de un numero Random entre 1 y 4 para seleccionar el clima
             try {
-                Thread.sleep(120000);
+                Thread.sleep(120000); //Tiempo que tarda el hilo en espera
                 
-                switch (random) {
+                switch (random) { //Switch con las funciones necesarias para hacer los cambios de clima
                     case 1:
                         setClima(60000);
                         super.setClimaActual("Normal");
-                        /*setClima(2000);
-                        setClimaActual("Muy alta");*/
                         break;
                     case 2:
                         setClima(40000);
@@ -54,7 +52,7 @@ public class Clima extends ClimaBase {
                         setClimaActual("Baja");
                         break;
                 }
-                System.out.println("La velocidad del viento es: " + super.getClimaActual());
+                System.out.println("La velocidad del viento es: " + super.getClimaActual()); //Imprime cuando se ejecute un cambio en la velocidad del viento
             } catch (InterruptedException ex) {
                 Logger.getLogger(Clima.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -65,7 +63,7 @@ public class Clima extends ClimaBase {
 
     @Override
     public void run() {
-        cambioClima();
+        cambioClima(); //Llamado al metodo cambioClima
     }
 
 }
