@@ -9,7 +9,7 @@ package tallerhilossync;
  * @author josep
  */
 public abstract class ClimaBase implements Runnable{
-    private String climaActual;
+    private String climaActual= "";
     private boolean running=true;
 
     public ClimaBase(String climaActual) {

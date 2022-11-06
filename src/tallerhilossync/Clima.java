@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  */
 public class Clima extends ClimaBase {
 
-    public static int clima = 100;
+    public static int clima=60000;
 
     public Clima(String climaActual, int clima) {
         super(climaActual);
@@ -30,28 +30,31 @@ public class Clima extends ClimaBase {
 
     public int cambioClima() {
         while (isRunning()) {
+            int random = (int) Math.floor(Math.random() * 4 + 1);
             try {
-                Thread.sleep(2000);
-                int random = (int) (Math.random()) * 4;
+                Thread.sleep(120000);
+                
                 switch (random) {
                     case 1:
-                        setClima(2000);
-                        setClimaActual("Muy alta");
+                        setClima(60000);
+                        super.setClimaActual("Normal");
+                        /*setClima(2000);
+                        setClimaActual("Muy alta");*/
                         break;
                     case 2:
-                        setClima(20);
-                        setClimaActual("Muy baja");
+                        setClima(40000);
+                        setClimaActual("Intermedio");
                         break;
                     case 3:
-                        setClima(50);
-                        setClimaActual("Baja");
+                        setClima(30000);
+                        setClimaActual("Rapida");
                         break;
                     case 4:
-                        setClima(100);
-                        setClimaActual("Normal");
+                        setClima(90000);
+                        setClimaActual("Baja");
                         break;
                 }
-                System.out.println("La velocidad del viento es: " + getClimaActual());
+                System.out.println("La velocidad del viento es: " + super.getClimaActual());
             } catch (InterruptedException ex) {
                 Logger.getLogger(Clima.class.getName()).log(Level.SEVERE, null, ex);
             }
