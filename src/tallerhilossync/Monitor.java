@@ -11,16 +11,16 @@ import java.util.concurrent.Callable;
  *
  * @author josep
  */
-public class Monitor implements Callable<String>{
+public class Monitor implements Callable<String>{ //Clase Monitor que administra la ejecucion de los hilos
     private List<EolicasBase> threadList;
 
-    public Monitor(final List<EolicasBase> threadList) {
+    public Monitor(final List<EolicasBase> threadList) { //Constructor de la clase
         this.threadList = threadList;
     }
     
 
     @Override
-    public String call() throws Exception {
+    public String call() throws Exception { //Determina el estado de cada hilo en el ThreadList
         boolean run=true;
         while (run) {            
             run=false;
@@ -30,7 +30,7 @@ public class Monitor implements Callable<String>{
                     break;
                 }
             }
-            Thread.sleep(Clima.clima);
+            Thread.sleep(Clima.clima); //Obtiene el tiempo de ejecucion desde el Clima
         }
         return Bateria.bateria;
     }

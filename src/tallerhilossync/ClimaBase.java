@@ -8,27 +8,27 @@ package tallerhilossync;
  *
  * @author josep
  */
-public abstract class ClimaBase implements Runnable{
-    private String climaActual= "";
-    private boolean running=true;
+public abstract class ClimaBase implements Runnable{ //Clase abstracta para generar el Clima
+    private String climaActual= ""; //Variable para almacenar el nombre del clima
+    private boolean running=true; //Variable para determinar si los hilos estan corriendo
 
-    public ClimaBase(String climaActual) {
+    public ClimaBase(String climaActual) { //Constructor de la clase
         this.climaActual = climaActual;
     }
 
-    public String getClimaActual() {
+    public String getClimaActual() { //Getter para el Clima Actual
         return climaActual;
     }
 
-    public boolean isRunning() {
+    public boolean isRunning() { //Getter para la variable Running
         return running;
     }
 
-    public void setClimaActual(String climaActual) {
+    public void setClimaActual(String climaActual) { //Setter para el Clima actual
         this.climaActual = climaActual;
     }
 
-    public void setRunning(boolean running) {
+    public void setRunning(boolean running) { //Setter para colocar el hilo a correr
         this.running = running;
     }
     
