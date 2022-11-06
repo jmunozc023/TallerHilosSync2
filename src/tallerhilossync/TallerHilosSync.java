@@ -11,7 +11,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.locks.ReentrantLock;
 
-
 /**
  *
  * @author josep
@@ -22,28 +21,34 @@ public class TallerHilosSync {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        String climaActual = null;
+        var cli = new Clima(climaActual, Clima.clima);
+
         var services = Executors.newCachedThreadPool();
         List<EolicasBase> threadList = new ArrayList<>();
-        List<Clima> threadList1= new ArrayList<>();
-        
-        var lock= new ReentrantLock();
+
+        services.submit(cli);
+
+        var lock = new ReentrantLock();
         for (int i = 0; i < 20; i++) {
-            threadList.add(new Eolicas(lock, i+1));
+            threadList.add(new Eolicas(lock, i + 1));
         }
         for (var thread : threadList) {
             services.submit(thread);
         }
-        var monitor= new Monitor(threadList);
-        Future<String> result=services.submit(monitor);
+        var monitor = new Monitor(threadList);
+        Future<String> result = services.submit(monitor);
         try {
             System.out.println(result.get());
         } catch (InterruptedException ex) {
             System.err.println(ex);
-        }catch (ExecutionException ex){
+        } catch (ExecutionException ex) {
             System.err.println(ex);
         }
+        cli.setRunning(false);
         services.shutdown();
-            
+        
+
     }
 
 }

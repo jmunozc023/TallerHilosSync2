@@ -11,35 +11,52 @@ import java.util.logging.Logger;
  *
  * @author josep
  */
-public class Clima implements Runnable {
-    public static int clima=100;
-  
-    
-    public int cambioClima(){
-        try {
-            int random= (int) (Math.random())*4;
-            switch (random) {
-                case 1:
-                    clima=2000;
-                    System.out.println("La velocidad del viento es muy alta");
-                    break;
-                case 2:
-                    clima=20;
-                    System.out.println("La velocidad del viento es alta");
-                    break;
-                case 3:
-                    clima=50;
-                    System.out.println("La velocidad del viento es normal");
-                    break;
-                case 4:
-                    clima=100;
-                    System.out.println("La velocidad del viento es baja");
-                    break;
+public class Clima extends ClimaBase {
+
+    public static int clima = 100;
+
+    public Clima(String climaActual, int clima) {
+        super(climaActual);
+        Clima.clima = clima;
+    }
+
+    public static int getClima() {
+        return clima;
+    }
+
+    public static void setClima(int clima) {
+        Clima.clima = clima;
+    }
+
+    public int cambioClima() {
+        while (isRunning()) {
+            try {
+                Thread.sleep(2000);
+                int random = (int) (Math.random()) * 4;
+                switch (random) {
+                    case 1:
+                        setClima(2000);
+                        setClimaActual("Muy alta");
+                        break;
+                    case 2:
+                        setClima(20);
+                        setClimaActual("Muy baja");
+                        break;
+                    case 3:
+                        setClima(50);
+                        setClimaActual("Baja");
+                        break;
+                    case 4:
+                        setClima(100);
+                        setClimaActual("Normal");
+                        break;
+                }
+                System.out.println("La velocidad del viento es: " + getClimaActual());
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Clima.class.getName()).log(Level.SEVERE, null, ex);
             }
-            Thread.sleep(2000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Clima.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         return clima;
     }
 
@@ -47,6 +64,5 @@ public class Clima implements Runnable {
     public void run() {
         cambioClima();
     }
-    
-    
+
 }
