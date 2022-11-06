@@ -18,7 +18,6 @@ public class Eolicas extends EolicasBase { //Clase Eolicas que implementa el abs
     private ReentrantLock sync; //variable para el lock de la sincronizacion
     private double x = 0.0; //Variable para obtener el numero de vuelta en porcentaje de la carga de la bateria
 
-
     public Eolicas(ReentrantLock sync, int id) { //Constructor para la clase que incluye el Lock
         super(id);
         this.sync = sync;
@@ -30,11 +29,9 @@ public class Eolicas extends EolicasBase { //Clase Eolicas que implementa el abs
     }
 
     public void cuenta() { //Metodo void para hacer la cuenta progresiva de la carga de la bateria
-        sync.lock();
-
+        
         x += 0.0001;
-
-        sync.unlock();
+        
     }
 
     @Override
@@ -45,23 +42,29 @@ public class Eolicas extends EolicasBase { //Clase Eolicas que implementa el abs
             try {
 
                 this.cuenta();
-                var temp = x;
-                sync.lock();
-                Thread.sleep(Clima.clima); // Esta variable sleep recibe el tiempo que le asigna el clima
-                x = temp;
-                NumberFormat formatoNumero = NumberFormat.getNumberInstance(); //Metodo para dar formato al numero obtenido y colocarle solo 4 decimales
-                formatoNumero.setMaximumFractionDigits(4);
-                Bateria.bateria = String.valueOf(temp); //Metodo para escribir el valor obtenido en la bateria, esta protegido por el lock
-                System.out.println("Eolica " + super.getId() + " Carga: " + formatoNumero.format(x) + "%"); //Funcion para imprimir en pantalla el progreso de carga
+                
+                if (x == 100) {
+                    System.out.println("Bateria cargada");
+                } else {
+                    sync.lock();
+                    cuenta();
+                    var temp = x;
+                    Thread.sleep(Clima.clima); // Esta variable sleep recibe el tiempo que le asigna el clima
+                    x = temp;
+                    NumberFormat formatoNumero = NumberFormat.getNumberInstance(); //Metodo para dar formato al numero obtenido y colocarle solo 4 decimales
+                    formatoNumero.setMaximumFractionDigits(4);
+                    Bateria.bateria = String.valueOf(temp); //Metodo para escribir el valor obtenido en la bateria, esta protegido por el lock
+                    System.out.println("Eolica " + super.getId() + " Carga: " + formatoNumero.format(x) + "%"); //Funcion para imprimir en pantalla el progreso de carga
+                    sync.unlock();
+                }
 
-                sync.unlock();
             } catch (InterruptedException ex) {
                 Logger.getLogger(Eolicas.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            
         }
         super.setRunning(false);//Cambia el estado de los hilos a false en Running
 
     }
-  
+
 }
