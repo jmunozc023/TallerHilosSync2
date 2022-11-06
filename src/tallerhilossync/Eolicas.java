@@ -52,7 +52,7 @@ public class Eolicas extends EolicasBase { //Clase Eolicas que implementa el abs
                 NumberFormat formatoNumero = NumberFormat.getNumberInstance(); //Metodo para dar formato al numero obtenido y colocarle solo 4 decimales
                 formatoNumero.setMaximumFractionDigits(4);
                 Bateria.bateria = String.valueOf(temp); //Metodo para escribir el valor obtenido en la bateria, esta protegido por el lock
-                System.out.println("Bateria " + super.getId() + " Carga: " + formatoNumero.format(x) + "%"); //Funcion para imprimir en pantalla el progreso de carga
+                System.out.println("Eolica " + super.getId() + " Carga: " + formatoNumero.format(x) + "%"); //Funcion para imprimir en pantalla el progreso de carga
 
                 sync.unlock();
             } catch (InterruptedException ex) {
