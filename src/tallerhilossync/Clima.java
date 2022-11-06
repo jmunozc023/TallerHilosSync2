@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  */
 public class Clima extends ClimaBase { //Clase que hereda el abstract del clima
 
-    public static int clima=60/*000*/;// Velocidad inicial normal de las eolicas
+    public static int clima=60000;// Velocidad inicial normal de las eolicas
 
     public Clima(String climaActual, int clima) { //Constructor de la clase
         super(climaActual);
